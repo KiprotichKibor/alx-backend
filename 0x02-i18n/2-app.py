@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 """
-Flask app with Babel configuration and locale selection
+Flask app
 """
-from flask import Flask, render_template, request
+from flask import (
+    Flask,
+    render_template,
+    request
+)
 from flask_babel import Babel
 
 
-class Config:
+class Config(object):
     """
-    Configuration class for Flask app
+    Configuration for Babel
     """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
@@ -23,18 +27,18 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale():
     """
-    Determine the best match with our supported languages
+    Select and return best language match based on supported languages
     """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/', strict_slashes=False)
-def index():
+def index() -> str:
     """
-    Render the index page
+    Handles / route
     """
-    return render_template('index.html')
+    return render_template('2-index.html')
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(port="5000", host="0.0.0.0", debug=True)
